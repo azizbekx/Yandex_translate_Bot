@@ -1,0 +1,14 @@
+uz\pdp\online\model\DefItem.class
+uz\pdp\online\enums\Language.class
+uz\pdp\online\model\UserModel.class
+uz\pdp\online\model\ResponseModel.class
+uz\pdp\online\enums\ResponseCode.class
+uz\pdp\online\model\SynItem.class
+uz\pdp\online\Main.class
+uz\pdp\online\service\YandexTranslate$1.class
+uz\pdp\online\model\Head.class
+uz\pdp\online\model\TrItem.class
+uz\pdp\online\model\MeanItem.class
+uz\pdp\online\service\YandexTranslate.class
+uz\pdp\online\TranslateBot.class
+uz\pdp\online\model\ExItem.class

@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* uz.pdp.online.Main
+worker: sh java $JAVA_OPTS -cp target/classes:target/dependency/* uz.pdp.online.Main
