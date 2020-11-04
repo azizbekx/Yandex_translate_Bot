@@ -1,1 +1,1 @@
-worker: sh target/bit/workerBot
+worker: sh target/bin/workerBot
