@@ -23,15 +23,18 @@ import java.util.List;
 import java.util.Map;
 
 public class TranslateBot extends TelegramLongPollingBot {
-    Map<Long, UserModel> userMap = new HashMap<>();
+   Map<Long, UserModel> userMap = new HashMap<>();
     Logger logger = LoggerFactory.getLogger(TranslateBot.class);
 
+
+   // write your bot username  
     public String getBotUsername() {
-        return "yandexapi_translatebot";
+        return "";
     }
 
+    // write your bot token which you receive from botfather
     public String getBotToken() {
-        return "1309181273:AAHQtEV4Fl5B_jh1ZUy25p4a5Hjkbu2WeJc";
+        return "";
     }
 
     public void onUpdateReceived(Update update) {
@@ -52,22 +55,14 @@ public class TranslateBot extends TelegramLongPollingBot {
                 sendMessage.setChatId(user.getId());
                 sendMessage.setReplyMarkup(createSetLangReplyButton());
                 sendMessage.setText("Welcome to the Yandex translate bot! \n"+
-                        "Set yourself your native language and set another foreign language \n" +
-                        "You can also choose your language using the /mylang command \n" +
+                        "Set yourself your native language and set another foreign language \n"+
+                        "as well as You can also choose your language using the /mylang command \n" +
                         "With the /tolang command, you can select a foreign language");
-//                sendMessage.setText("Hello\n" +
-//                        "Welcome to Yandex Translate bot! \uD83C\uDF0E\n" +
-//                        "You can choose your native language and foreign language for translate word or phrase \n" +
-//                        " \n" +
-//                        "Bot translate in this method\n" +
-//                        "/setMyLang  ➡️  /toLang\n" +
-//                        "\n" +
-//                        "This bot powered by Yandex Translate API");
             } else {
                 user = userMap.get(update.getMessage().getChatId());
                 logger.info("{SUCCESS} get User chat ID=>"+update.getMessage().getChatId());
                 if (userMessage.equals("/mylang") ||
-                        userMessage.equals("Mahalliy tilni o'rnatish")) {
+                        userMessage.equals("Own Language")) {
                     sendMessage.setChatId(user.getId());
                     sendMessage.setReplyMarkup(createReplyButton());
                     if (user.getOwnLang() != null) {
@@ -78,7 +73,7 @@ public class TranslateBot extends TelegramLongPollingBot {
                     }
                     user.setLangQuery("own");
                 }else if (userMessage.equals("/tolang")||
-                            userMessage.equals("Xorijiy tilni o'rnatish")) {
+                            userMessage.equals("Translate Language")) {
                     sendMessage.setChatId(user.getId());
                     sendMessage.setReplyMarkup(createReplyButton());
                     if (user.getToLang() != null) {
@@ -94,7 +89,8 @@ public class TranslateBot extends TelegramLongPollingBot {
 
                 switch (userMessage) {
                     case "English":
-                        sendMessage.setReplyMarkup(createSetLangReplyButton());
+
+
                         if (user.getLangQuery()!=null && user.getLangQuery().equals("own")) {
                             user.setOwnLang(Language.ENGLISH.code);
                             logger.info("{SUCCESS} set own native language => "+Language.ENGLISH.name());
@@ -107,10 +103,18 @@ public class TranslateBot extends TelegramLongPollingBot {
                                     "Translate to language English");
                         }
                         user.setLangQuery(null);
+                        if (user.getOwnLang() ==null || user.getToLang() ==null){
+                            sendMessage.setReplyMarkup(createSetLangReplyButton());
+                        }else  if (user.getToLang() != null && user.getOwnLang() != null && user.getLangQuery()==null) {
+                            sendMessage.setText("You all set, Enter word or phrase");
+
+                            ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
+                            sendMessage.setReplyMarkup(replyKeyboardRemove);
+                        }
 
                         break;
                     case "Russian":
-                        sendMessage.setReplyMarkup(createSetLangReplyButton());
+
                         if (user.getLangQuery()!=null && user.getLangQuery().equals("own")) {
                             user.setOwnLang(Language.RUSSIAN.code);
                             logger.info("{SUCCESS} set for translate to language => "+Language.RUSSIAN.name());
@@ -123,10 +127,18 @@ public class TranslateBot extends TelegramLongPollingBot {
                                     "Translate to language Russian");
 
                         }
+
                         user.setLangQuery(null);
+                        if (user.getOwnLang() ==null || user.getToLang() ==null){
+                            sendMessage.setReplyMarkup(createSetLangReplyButton());
+                        }else  if (user.getToLang() != null && user.getOwnLang() != null && user.getLangQuery()==null) {
+                            sendMessage.setText("You all set, Enter word or phrase");
+                            ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
+                            sendMessage.setReplyMarkup(replyKeyboardRemove);
+                        }
                         break;
                     case "Turkish":
-                        sendMessage.setReplyMarkup(createSetLangReplyButton());
+
                         if (user.getLangQuery()!=null && user.getLangQuery().equals("own")) {
                             user.setOwnLang(Language.TURKISH.code);
                             logger.info("{SUCCESS} set for translate to language => "+Language.RUSSIAN.name());
@@ -139,6 +151,13 @@ public class TranslateBot extends TelegramLongPollingBot {
                                     "Translate to language Turkish");
                         }
                         user.setLangQuery(null);
+                        if (user.getOwnLang() ==null || user.getToLang() ==null){
+                            sendMessage.setReplyMarkup(createSetLangReplyButton());
+                        }else  if (user.getToLang() != null && user.getOwnLang() != null && user.getLangQuery()==null) {
+                            sendMessage.setText("You all set, Enter word or phrase");
+                            ReplyKeyboardRemove replyKeyboardRemove = new ReplyKeyboardRemove();
+                            sendMessage.setReplyMarkup(replyKeyboardRemove);
+                        }
                         break;
                     default:
                         if (user.getToLang() != null && user.getOwnLang() != null && user.getLangQuery()==null) {
@@ -186,11 +205,11 @@ public class TranslateBot extends TelegramLongPollingBot {
 
         List<KeyboardRow> keybord = new ArrayList<KeyboardRow>();
         KeyboardRow row = new KeyboardRow();
-        row.add(new KeyboardButton("Mahalliy tilni o'rnatish"));
+        row.add(new KeyboardButton("Own Language"));
         keybord.add(row);
 
         KeyboardRow row2 = new KeyboardRow();
-        row2.add(new KeyboardButton("Xorijiy tilni o'rnatish"));
+        row2.add(new KeyboardButton("Translate Language"));
         keybord.add(row2);
 
         replyKeyboardMarkup.setKeyboard(keybord);
